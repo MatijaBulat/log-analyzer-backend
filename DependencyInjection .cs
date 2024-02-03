@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using zavrsni_backend.Persistence;
+using zavrsni_backend.Services;
+using zavrsni_backend.Services.Interfaces;
 
 namespace zavrsni_backend
 {
@@ -15,6 +18,9 @@ namespace zavrsni_backend
             });
 
             //dodat servise i automapper
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserService, UserService>();
 
             return services;
         }
