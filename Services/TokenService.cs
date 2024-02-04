@@ -3,13 +3,14 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using zavrsni_backend.Entities;
+using zavrsni_backend.Models.DTO;
 using zavrsni_backend.Services.Interfaces;
 
 namespace zavrsni_backend.Services
 {
     public class TokenService : ITokenService
     {
-        public string CreateToken(User user, string tokenKey)
+        public UserTokenDTO CreateToken(User user, string tokenKey)
         {
             IList<Claim> claims = new List<Claim>()
             {
@@ -27,7 +28,9 @@ namespace zavrsni_backend.Services
                     signingCredentials: creds
                 );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return new UserTokenDTO { Token = tokenString };
         }
     }
 }

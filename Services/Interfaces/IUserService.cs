@@ -7,8 +7,8 @@ namespace zavrsni_backend.Services.Interfaces
     {
         //public Task<>
 
-        public Task<string> RegisterUser(UserDTO userDto, CancellationToken cancellation);
-        public Task<string> LoginUser(UserDTO userDto, CancellationToken cancellation);
+        public Task<UserTokenDTO> RegisterUser(UserDTO userDto, CancellationToken cancellation);
+        public Task<UserTokenDTO> LoginUser(UserDTO userDto, CancellationToken cancellation);
         public Task<User> UserExist(string username, CancellationToken token);
     }
 }

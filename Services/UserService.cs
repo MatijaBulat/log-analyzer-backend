@@ -27,7 +27,7 @@ namespace zavrsni_backend.Services
             _configuration = configuration;
         }
 
-        public async Task<string> LoginUser(UserDTO userDto, CancellationToken cancellation)
+        public async Task<UserTokenDTO> LoginUser(UserDTO userDto, CancellationToken cancellation)
         {
             var user = await UserExist(userDto.Username, cancellation);
 
@@ -39,7 +39,7 @@ namespace zavrsni_backend.Services
             return _tokenService.CreateToken(user, _configuration.GetSection(TokenKey).Value);
         }
 
-        public async Task<string> RegisterUser(UserDTO userDto, CancellationToken cancellation)
+        public async Task<UserTokenDTO> RegisterUser(UserDTO userDto, CancellationToken cancellation)
         {
             var user = await UserExist(userDto.Username, cancellation);
 
