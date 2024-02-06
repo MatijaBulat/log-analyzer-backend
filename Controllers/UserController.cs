@@ -22,7 +22,7 @@ namespace zavrsni_backend.Controllers
         {
             var userToken = await _userService.LoginUser(userDto, cancellationToken);
 
-            return userToken is null ? NotFound() : Ok(userToken);
+            return Ok(userToken);
         }
 
         [HttpPost("register")]
@@ -30,7 +30,7 @@ namespace zavrsni_backend.Controllers
         {
             var userToken = await _userService.RegisterUser(userDto, cancellationToken);
 
-            return userToken is null ? NotFound() : Ok(userToken);
+            return Ok(userToken);
         }
 
         //[HttpGet("me"), Authorize]

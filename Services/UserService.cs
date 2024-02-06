@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using zavrsni_backend.Entities;
+using zavrsni_backend.ErrorModels;
 using zavrsni_backend.Models.DTO;
 using zavrsni_backend.Persistence;
 using zavrsni_backend.Services.Interfaces;
@@ -33,7 +34,7 @@ namespace zavrsni_backend.Services
 
             if (user is null || !BCrypt.Net.BCrypt.Verify(userDto.Password, user.PasswordHash))
             {
-                throw new Exception("Wrong username or password!");
+                throw new UnauthorizedAccessException("Invalid username or password!");
             }
 
             return _tokenService.CreateToken(user, _configuration.GetSection(TokenKey).Value);
@@ -45,7 +46,7 @@ namespace zavrsni_backend.Services
 
             if (user is not null)
             {
-                throw new Exception("User already exists!");
+                throw new AppCustomException("Username already exists!");
             }
 
             user = _mapper.Map<User>(userDto);
