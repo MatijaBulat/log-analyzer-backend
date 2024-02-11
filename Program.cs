@@ -5,6 +5,7 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using zavrsni_backend;
 using zavrsni_backend.Middlewares;
+using zavrsni_backend.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,8 +41,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-
-
 builder.Services.AddCors(options => options.AddPolicy(name: "cors",
     policy =>
     {
@@ -68,5 +67,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.Seed();
 
 app.Run();

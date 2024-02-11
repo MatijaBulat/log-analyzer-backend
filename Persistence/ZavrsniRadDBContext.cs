@@ -6,7 +6,7 @@ namespace zavrsni_backend.Persistence
 {
     public class ZavrsniRadDBContext : DbContext
     {
-        public ZavrsniRadDBContext(DbContextOptions<ZavrsniRadDBContext> options) : base(options) { }
+        public ZavrsniRadDBContext(DbContextOptions<ZavrsniRadDBContext> options) : base(options)  { }
 
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Record> Records { get; set; }

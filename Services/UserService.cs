@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
-using Azure.Core;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using zavrsni_backend.Entities;
 using zavrsni_backend.ErrorModels;
 using zavrsni_backend.Models.DTO;

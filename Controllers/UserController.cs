@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using zavrsni_backend.Models.DTO;
 using zavrsni_backend.Services.Interfaces;
 
@@ -32,12 +30,5 @@ namespace zavrsni_backend.Controllers
 
             return Ok(userToken);
         }
-
-        //[HttpGet("me"), Authorize]
-        //public ActionResult<string> GetMe()
-        //{
-        //    var userName = "Matija";
-        //    return Ok(userName);
-        //}
     }
 }

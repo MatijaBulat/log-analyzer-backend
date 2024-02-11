@@ -17,7 +17,6 @@ namespace zavrsni_backend
                 options.UseSqlServer(configuration.GetConnectionString(ConnectionString));
             });
 
-            //dodat servise i automapper
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
