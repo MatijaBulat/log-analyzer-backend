@@ -20,6 +20,7 @@ namespace zavrsni_backend
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRecordService, RecordService>();
 
             return services;
         }

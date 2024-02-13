@@ -15,22 +15,22 @@ namespace zavrsni_backend.Helpers
         private const string Url = "URL";
 
         private ZavrsniRadDBContext _dbContext;
-        private RecordType? unclassifiedRecordType;
 
         public LogFileParser(ZavrsniRadDBContext zavrsniRadDBContext)
         {
             _dbContext = zavrsniRadDBContext;
-            unclassifiedRecordType = GetUnclassifiedRecordType();
         }
 
-        public IList<Record> ParseItems(string json)
+        public IList<Record> ParseItems(string json, bool isWhitelist = false)
         {
+            RecordType recordType = isWhitelist ? GetRecordType((int)Enums.RecordType.Whitelisted) : GetRecordType((int)Enums.RecordType.Unclassified);
+
             var result = JsonConvert.DeserializeObject<JsonFullObject>(json);
 
-            return result.FortianalyzerReport.Charts[0].Rows.Select(ProcessRow).ToList();
+            return result.FortianalyzerReport.Charts[0].Rows.Select(row => ProcessRow(row, recordType)).ToList();
         }
 
-        private Record ProcessRow(Row row)
+        private Record ProcessRow(Row row, RecordType recordType)
         {
             return new Record
             {
@@ -40,7 +40,7 @@ namespace zavrsni_backend.Helpers
                 HostName = GetValue(HostName, row),
                 Keyword = GetValue(Keyword, row),
                 Url = GetValue(Url, row),
-                RecordType = unclassifiedRecordType
+                RecordType = recordType
             };
         }
 
@@ -49,13 +49,9 @@ namespace zavrsni_backend.Helpers
             return row.Columns.SingleOrDefault(c => c.Name == name)?.Value ?? string.Empty;
         }
 
-        private RecordType GetUnclassifiedRecordType()
+        private RecordType GetRecordType(int id)
         {
-            if (unclassifiedRecordType == null)
-            {
-                unclassifiedRecordType = _dbContext.RecordTypes.FirstOrDefault(rt => rt.Id == (int)Enums.RecordType.Unclassified);
-            }
-            return unclassifiedRecordType;
+            return _dbContext.RecordTypes.FirstOrDefault(rt => rt.Id == id);
         }
     }
 }

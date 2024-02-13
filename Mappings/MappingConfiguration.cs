@@ -12,6 +12,11 @@ namespace zavrsni_backend.Mappings
             CreateMap<UserDTO, User>()
                 .ForMember(dest => dest.PasswordHash, act => act.MapFrom(src => BCrypt.Net.BCrypt.HashPassword(src.Password)));
             #endregion
+
+            #region
+            CreateMap<Record, RecordDTO>();
+            CreateMap<RecordDTO, Record>();
+            #endregion
         }
     }
 }

@@ -22,7 +22,7 @@ namespace zavrsni_backend.Persistence
                     {
                         string json = reader.ReadToEnd();
 
-                        var parsedRecords = new LogFileParser(context).ParseItems(json);
+                        var parsedRecords = new LogFileParser(context).ParseItems(json, isWhitelist: true);
 
                         context.Records.AddRange(parsedRecords);
                         
