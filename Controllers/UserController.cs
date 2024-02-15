@@ -4,7 +4,7 @@ using zavrsni_backend.Services.Interfaces;
 
 namespace zavrsni_backend.Controllers
 {
-    [Route("api/user")]
+    [Route("api/User")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -15,7 +15,7 @@ namespace zavrsni_backend.Controllers
             _userService = userService;
         }
 
-        [HttpPost("login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> LoginUser([FromBody] UserDTO userDto, CancellationToken cancellationToken)
         {
             var userToken = await _userService.LoginUser(userDto, cancellationToken);
@@ -23,7 +23,7 @@ namespace zavrsni_backend.Controllers
             return Ok(userToken);
         }
 
-        [HttpPost("register")]
+        [HttpPost("Register")]
         public async Task<IActionResult> RegisterUser([FromBody] UserDTO userDto, CancellationToken cancellationToken)
         {
             var userToken = await _userService.RegisterUser(userDto, cancellationToken);

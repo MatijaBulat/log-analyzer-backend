@@ -34,7 +34,7 @@ namespace zavrsni_backend.Helpers
         {
             return new Record
             {
-                Scrip = GetValue(SrcIp, row),
+                Srcip = GetValue(SrcIp, row),
                 Timestamp = DateTime.Parse(GetValue(Timestamp, row)),
                 Action = GetValue(Action, row),
                 HostName = GetValue(HostName, row),

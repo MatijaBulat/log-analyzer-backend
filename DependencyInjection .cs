@@ -21,6 +21,7 @@ namespace zavrsni_backend
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRecordService, RecordService>();
+            services.AddScoped<IRecordTypeService, RecordTypeService>();
 
             return services;
         }

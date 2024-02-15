@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using zavrsni_backend.Models.DTO;
 using zavrsni_backend.Services.Interfaces;
 
 namespace zavrsni_backend.Controllers
 {
-    [Route("api/record")]
+    [Route("api/Record")]
     [ApiController]
     public class RecordController : ControllerBase
     {
@@ -15,7 +16,17 @@ namespace zavrsni_backend.Controllers
             _recordService = recordService;
         }
 
-        [HttpPost("uploadFile")]
+        [Authorize]
+        [HttpGet("GetAllRecords")]
+        public async Task<IActionResult> GetAllRecords(CancellationToken cancellationToken)
+        {
+            var list = await _recordService.GetAllRecords(cancellationToken);
+
+            return list is null ? NoContent() : Ok(list);
+        }
+
+        [Authorize]
+        [HttpPost("UploadFile")]
         public async Task<IActionResult> UploadFile(IFormFile file, CancellationToken cancellationToken)
         {
             var list = await _recordService.UploadFile(file, cancellationToken);
@@ -23,15 +34,17 @@ namespace zavrsni_backend.Controllers
             return list is null ? NoContent() : Ok(list);
         }
 
-        [HttpPost("createRecord")]
+        [Authorize]
+        [HttpPost("CreateRecord")]
         public async Task<IActionResult> CreateRecord([FromBody] RecordDTO recordDTO, CancellationToken cancellationToken)
         {
-            await _recordService.CreateRecord(recordDTO, cancellationToken);
+            var id = await _recordService.CreateRecord(recordDTO, cancellationToken);
 
-            return Ok();
+            return Ok(id);
         }
 
-        [HttpDelete("deleteRecord/{id}")]
+        [Authorize]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRecord([FromRoute] int id, CancellationToken cancellationToken)
         {
             await _recordService.DeleteRecord(id, cancellationToken);
@@ -39,7 +52,8 @@ namespace zavrsni_backend.Controllers
             return Ok();
         }
 
-        [HttpPut("updateRecord/{id}")]
+        [Authorize]
+        [HttpPut("UpdateRecord")]
         public async Task<IActionResult> UpdateCultureObject([FromBody] RecordDTO recordDto, CancellationToken cancellationToken)
         {
             await _recordService.UpdateRecord(recordDto, cancellationToken);

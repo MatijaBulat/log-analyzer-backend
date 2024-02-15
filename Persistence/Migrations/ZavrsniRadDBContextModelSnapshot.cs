@@ -39,13 +39,12 @@ namespace zavrsnibackend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Keyword")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RecordTypeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Scrip")
+                    b.Property<string>("Srcip")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

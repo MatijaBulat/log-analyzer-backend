@@ -12,8 +12,8 @@ using zavrsni_backend.Persistence;
 namespace zavrsnibackend.Migrations
 {
     [DbContext(typeof(ZavrsniRadDBContext))]
-    [Migration("20240211213826_Initial")]
-    partial class Initial
+    [Migration("20240215132347_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,13 +42,12 @@ namespace zavrsnibackend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Keyword")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RecordTypeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Scrip")
+                    b.Property<string>("Srcip")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

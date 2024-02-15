@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using zavrsni_backend.Entities;
 using zavrsni_backend.Helpers;
@@ -19,7 +20,16 @@ namespace zavrsni_backend.Services
             _mapper = mapper;
         }
 
-        public async Task CreateRecord(RecordDTO recordDto, CancellationToken token)
+        public async Task<IList<RecordDTO>> GetAllRecords(CancellationToken token)
+        {
+            return await _dbContext.Records
+                .OrderBy(r => r.RecordType.Id == (int)Enums.RecordType.Blacklisted ? 1 :
+                      (r.RecordType.Id == (int)Enums.RecordType.Unclassified ? 2 : 3))
+                .ProjectTo<RecordDTO>(_mapper.ConfigurationProvider)
+                .ToListAsync(token);
+        }
+
+        public async Task<int> CreateRecord(RecordDTO recordDto, CancellationToken token)
         {
             ArgumentNullException.ThrowIfNull(recordDto, nameof(recordDto));
 
@@ -27,7 +37,7 @@ namespace zavrsni_backend.Services
 
             Record record = new Record()
             {
-                Scrip = recordDto.Scrip,
+                Srcip = recordDto.Srcip,
                 Timestamp = recordDto.Timestamp,
                 Action = recordDto.Action,
                 HostName = recordDto.HostName,
@@ -38,6 +48,8 @@ namespace zavrsni_backend.Services
 
             _dbContext.Records.Add(record);
             await _dbContext.SaveChangesAsync(token);
+
+            return record.Id;
         }
 
         public async Task DeleteRecord(int recordId, CancellationToken token)
@@ -65,7 +77,7 @@ namespace zavrsni_backend.Services
                 throw new NullReferenceException($"Record with id '{recordDto.Id}' does not exist");
             }
 
-            record.Scrip = recordDto.Scrip;
+            record.Srcip = recordDto.Srcip;
             record.Timestamp = recordDto.Timestamp;
             record.Action = recordDto.Action;
             record.HostName = recordDto.HostName;
