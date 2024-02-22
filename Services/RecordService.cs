@@ -38,7 +38,7 @@ namespace zavrsni_backend.Services
             Record record = new Record()
             {
                 Srcip = recordDto.Srcip,
-                Timestamp = recordDto.Timestamp,
+                Timestamp = recordDto.Timestamp.ToLocalTime(),
                 Action = recordDto.Action,
                 HostName = recordDto.HostName,
                 Keyword = recordDto.Keyword,
@@ -114,6 +114,8 @@ namespace zavrsni_backend.Services
             await _dbContext.SaveChangesAsync(token);
 
             var recordsDTO = recordsToSave.Select(_mapper.Map<RecordDTO>).ToList();
+
+            recordsDTO.Sort((x, y) => DateTime.Compare(x.Timestamp, y.Timestamp));
 
             return recordsDTO;
         }
