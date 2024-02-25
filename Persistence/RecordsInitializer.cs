@@ -24,12 +24,13 @@ namespace zavrsni_backend.Persistence
 
                         var parsedRecords = new LogFileParser(context).ParseItems(json, isWhitelist: true);
 
+                        parsedRecords = parsedRecords.DistinctBy(record => record.Url).ToList();
+
                         context.Records.AddRange(parsedRecords);
                         
                         context.SaveChanges();
                     }
                 }
-
                 return app;
             }
         }
